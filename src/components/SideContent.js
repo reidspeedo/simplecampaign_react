@@ -1,14 +1,16 @@
 
 
-const SideContent = ({icon}) => {
+const SideContent = ({icon, onReveal}) => {
+
+
     if (icon === 'contacts') {return (
         <>
         <div className='side-content-header'><p>Contacts</p></div>
         <div className='side-content-labels'>
-            <div>Overview</div>
-            <div>Manage Fields</div>
-            <div>Import</div>
-            <div>Export</div>
+            <div id="overview" onClick={(e) => onReveal(e.target.id)}>Overview</div>
+            <div id="managefields" onClick={(e) => onReveal(e.target.id)}>Manage Fields</div>
+            <div id="import" onClick={(e) => onReveal(e.target.id)}>Import</div>
+            <div id="export" onClick={(e) => onReveal(e.target.id)}>Export</div>
         </div>
         </>
     )} 
@@ -16,7 +18,7 @@ const SideContent = ({icon}) => {
         <>
         <div className='side-content-header'>Automation</div>
         <div className='side-content-labels'>
-            <div>automations</div>
+            <div id="automations" onClick={(e) => onReveal(e.target.id)}>automations</div>
         </div>
         </>
     )
@@ -25,7 +27,7 @@ const SideContent = ({icon}) => {
         <>
         <div className='side-content-header'>Settings</div>
         <div className='side-content-labels'>
-            <div>settings</div>
+            <div id="settings" onClick={(e) => onReveal(e.target.id)}>settings</div>
         </div>
         </>
     )

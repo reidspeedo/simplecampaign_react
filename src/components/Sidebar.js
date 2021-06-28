@@ -7,7 +7,7 @@ import SideContent from './SideContent';
 import { useState } from 'react';
 
 
-const Sidebar = () => {
+const Sidebar = ({onReveal}) => {
     const [isOpen, setIsOpen] = useState(true);
     const [iconstate, setIconstate] = useState('')
 
@@ -33,7 +33,7 @@ const Sidebar = () => {
           </div>
 
         <div className={isOpen ? 'sidebar-hidden': 'sidebar-show'}>
-            <SideContent icon={iconstate}/>
+            <SideContent onReveal={onReveal} icon={iconstate}/>
         </div>
         </>
     )
