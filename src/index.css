@@ -1,13 +1,131 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+* {
+  /* border: 1px solid steelblue; */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+#root {
+  height: 100vh;
+}
+
+.main {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidebar {
+  display: flex;
+  flex-basis: 0%;
+  justify-content: space-between;
+}
+
+.sidebar-fixed {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 64px;
+  background-color: #B5C2EB;
+}
+
+
+.side-bar-logo {
+  width: 65px;
+  display: flex;
+  justify-content: center;
+}
+
+.side-bar-logo img{
+  max-width: 75%;
+  padding: 10%;
+  padding-left: 13%;
+  height: auto;
+}
+
+.side-bar-icons {
+  display: flex;
+  justify-content: center;
+  width: 65px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.side-bar-icons img{
+  max-width: 40%;
+  padding: 10%;
+  padding-left: 13%;
+  height: auto;
+}
+
+
+.side-bar-logo:hover {
+  background-color: #7976FF;
+}
+.side-bar-icons:hover {
+  background-color: #7976FF;
+}
+
+.sidebar-hidden {
+  width: 0px;
+  background-color: #7B84A0;
+  transition: width .5s;
+}
+
+.sidebar-show {
+  width: 158px;
+  background-color: #7B84A0;
+  transition: width .5s;
+}
+
+.rightbar{
+  flex-basis: 100%;
+}
+
+.container {
+  height:100%;
+  background-color: #FAFBFF;
+  border-style: solid;
+  border-left: none;
+  border-width: 3px;
+  border-color: #7B84A0;
+  
+}
+
+.header {
+  height:55px;
+  background-color: #F8F9FF;
+}
+
+.side-content-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #B5C2EB;
+  color: white;
+  font-size: 18pt;
+  height: 37px;
+  font-family: Geneva, Tahoma, sans-serif;
+}
+
+
+.side-content-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.side-content-labels div{
+  padding: 8pt;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size:  16px;
+  color: white;
+}
+
+.side-content-labels div:hover {
+  background-color: #B5C2EB;
 }
