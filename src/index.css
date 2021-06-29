@@ -182,9 +182,11 @@ html, body {
   background-color: #F8F9FF;
 }
 
-.container-header div{
+.container-header-left{
   display: flex;
   flex-wrap: nowrap;
+  width: 50%;
+  justify-content: space-evenly;
 }
 
 .container-footer {
@@ -199,7 +201,7 @@ html, body {
   background-color: #F8F9FF;
 }
 
-.btn {
+/* .btn {
   display: inline-block;
   background: #000;
   color: #fff;
@@ -219,5 +221,5 @@ html, body {
 
 .btn:active {
   transform: scale(0.98);
-}
+} */
 
