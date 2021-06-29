@@ -21,7 +21,6 @@ html, body {
 .sidebar {
   display: flex;
   flex-basis: 0%;
-  height: auto;
   justify-content: space-between;
 }
 
@@ -83,6 +82,8 @@ html, body {
 }
 
 .rightbar{
+  display: flex;
+  flex-direction: column;
   flex-basis: 100%;
 }
 
@@ -102,13 +103,14 @@ html, body {
   padding-left: 15pt;
   font-weight: bold;
   color: #353A4A;
-  /* padding-top: 5pt; */
+
 }
 
 .header img{
   max-width: 25%;
-  height: 90%;
+  height: 40pt;
   padding-right: 50px;
+  padding: 10px;
   object-fit: cover;
 }
 
@@ -144,9 +146,10 @@ html, body {
 
 .container {
   display: flex;
+  overflow: auto;
   justify-content: center;
   align-items: center;
-  height:100%;
+  height: calc( 100% - 57px );
   background-color: #e7e9f8;
   border-style: solid;
   border-left: none;
@@ -157,15 +160,17 @@ html, body {
 .container-box {
   display: flex;
   justify-content: space-between;
+  overflow: hidden;
   align-items: center;
   flex-direction: column;
   border: solid;
   border-width: 1px;
   border-color: #7976FF;
   border-radius: 5pt;
-  margin-bottom: 5%;
+  /* margin-bottom: 5%; */
   width: 90%;
   height: 80%;
+  min-height: 400pt;
 }
 
 .container-header {
@@ -185,13 +190,14 @@ html, body {
 .container-header-left{
   display: flex;
   flex-wrap: nowrap;
-  width: 50%;
+  width: 600pt;
   justify-content: space-evenly;
 }
 
 .container-footer {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   border: solid;
   border-width: 1px;
   border-color: #7976FF;
@@ -201,25 +207,4 @@ html, body {
   background-color: #F8F9FF;
 }
 
-/* .btn {
-  display: inline-block;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 15px;
-  font-family: "Lucida Console", "Courier New", monospace;;
-}
-
-.btn:focus {
-  outline: none;
-}
-
-.btn:active {
-  transform: scale(0.98);
-} */
 
