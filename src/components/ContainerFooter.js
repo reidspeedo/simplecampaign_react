@@ -50,7 +50,7 @@ function ContainerFooter() {
     setRow(event.target.value);
   };
   return (
-    <div>
+    <div className='container-footer'>
       <FormControl className={classes.margin}>
         <NativeSelect
           id="demo-customized-select-native"
