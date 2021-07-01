@@ -29,22 +29,6 @@ function createRow(fields, row) {
     return new_row
 }
 
-const generateRowCells = (row) => {
-    var output = []
-    for (const key in row) {
-        if (key === 'id') {
-            output.push(<TableCell>{row[key]}</TableCell>)
-        } 
-        else if (key === 'status') {
-            output.push(<TableCell align='right'><StatusChip label={row[key]}/></TableCell>)
-        }
-        else {
-            output.push(<TableCell align='right'>{row[key]}</TableCell>)
-        }
-    }
-    return output
-}
-
 export default function Container() {
   const classes = useStyles();
 
@@ -92,18 +76,40 @@ export default function Container() {
   const [rows, setRows] = useState(
     [
         createRow(fields, {id: 1, firstname: 'Reid', lastname: 'Relatores', email: 'rrrelatores@gmail.com', status: 'Quoted No Contact'}),
-        createRow(fields, {id: 2, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
-        createRow(fields, {id: 3, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Sold'}),
-        createRow(fields, {id: 4, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Interested'}),
-        createRow(fields, {id: 5, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Low Interest'}),
-        createRow(fields, {id: 6, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'X Date Follow Up'}),
-        createRow(fields, {id: 7, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Dead'}),
-        createRow(fields, {id: 8, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
-        createRow(fields, {id: 9, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
-        createRow(fields, {id: 10, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
+        // createRow(fields, {id: 2, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
+        // createRow(fields, {id: 3, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Sold'}),
+        // createRow(fields, {id: 4, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Interested'}),
+        // createRow(fields, {id: 5, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Low Interest'}),
+        // createRow(fields, {id: 6, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'X Date Follow Up'}),
+        // createRow(fields, {id: 7, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Dead'}),
+        // createRow(fields, {id: 8, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
+        // createRow(fields, {id: 9, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
+        // createRow(fields, {id: 10, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
 
     ]
   )
+  
+
+  const statusHandleChange = (event, id) => {
+    // setRows([createRow(fields, {id: 1, firstname: 'Reid', lastname: 'Relatores', email: 'rrrelatores@gmail.com', status: event.target.value})])
+    console.log(event, id)
+  }
+
+  const generateRowCells = (row) => {
+    var output = []
+    for (const key in row) {
+        if (key === 'id') {
+            output.push(<TableCell>{row[key]}</TableCell>)
+        } 
+        else if (key === 'status') {
+            output.push(<TableCell align='right'><StatusChip handleChange={statusHandleChange} id={row.id} label={row[key]}/></TableCell>)
+        }
+        else {
+            output.push(<TableCell align='right'>{row[key]}</TableCell>)
+        }
+    }
+    return output
+}
 
   return (
     <>
@@ -111,15 +117,15 @@ export default function Container() {
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
-          <TableRow>
+          {/* <TableRow>
             {fields.map((field, i) => (                
                 !field.hide ? i === 0 ? <TableCell>{field.fieldName}</TableCell> : <TableCell align='right'>{field.fieldName}</TableCell>: null
             ))}
-          </TableRow>
+          </TableRow> */}
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow>
                 {generateRowCells(row)}
             </TableRow>
           ))}
