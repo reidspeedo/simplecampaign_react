@@ -1,94 +1,127 @@
-import ContainerHeader from "./ContainerHeader"
-import ContainerFooter from "./ContainerFooter"
-import StatusChip from "./StatusChip";
-import { DataGrid } from '@material-ui/data-grid';
-import { useState } from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import { useState } from 'react';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import ContainerFooter from './ContainerFooter'
+import ContainerHeader from './ContainerHeader'
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+});
 
 
-//First Name, Last Name, Email, Phone, Status, Automations X Date, Notes? 
-
-
-
-const columns = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    {
-      field: 'firstName',
-      headerName: 'First Name',
-      flex: 1,
-      editable: true,
-    },
-    {
-      field: 'lastName',
-      headerName: 'Last Name',
-      flex: 1,
-      editable: true,
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      // type: 'number',
-      flex: 1,
-      editable: true,
-      valueGetter: (params) => 
-          `${params.getValue(params.id, 'firstName') || ''}.${params.getValue(params.id, 'lastName')|| ''}@email.com` 
-    },
-    {
-      field: 'phoneNumber',
-      headerName: 'Phone',
-      flex: 1,
-      editable: true,
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      flex: 1,
-      editable: false,
-      renderCell: (params) => (<StatusChip label={params.getValue(params.id, 'status')}/>)
-    },
-    {
-      field: 'automation',
-      headerName: 'Automation',
-      flex: 1,
-      editable: true,
-    }
-  ];
-  
-
-const Container = () => {
-    const [rows, setRows] = useState([
-        { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Sold'},
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Quoted No Contact'},
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', status: 'Interested'},
-        { id: 4, lastName: 'Stark', firstName: 'Arya', status: 'Low Interest'},
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', status: 'Dead'},
-        { id: 6, lastName: 'Melisandre', firstName: null, status: 'X Date Follow Up'},
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', status: 'Sold'},
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', status: 'Sold'},
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', status: 'Sold'},
-    ])
-
-    
-    const handleChange = (event) => {
-        setRows(event.target.value);
-      };
-
-    return (
-        <> 
-            <ContainerHeader/>
-            <div className='container-main' style={{ height: '100%', width: '100%' }}>
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    rowHeight={30}
-                    pageSize={10}
-                    disableColumnMenu={true}
-                    checkboxSelection
-                    disableSelectionOnClick
-                />
-            </div>
-            <ContainerFooter/>
-        </>
-    )
+function referenceField(fields, id) {
+    return fields.filter(field => field.fieldID === id)
 }
 
-export default Container
+function createRow(fields, row) {
+    const headers = fields.map((field) => (!field.hide ? field.fieldID:{}))
+    const new_row = {}
+    headers.forEach((fieldID) => (row.hasOwnProperty(fieldID) ? new_row[fieldID] = row[fieldID]:{}))
+    return new_row
+}
+
+const generateRowCells = (row) => {
+    var output = []
+    for (const key in row) {
+        if (key === 'id') {
+            output.push(<TableCell>{row[key]}</TableCell>)
+        } else {
+            output.push(<TableCell align='right'>{row[key]}</TableCell>)
+        }
+    }
+    return output
+}
+
+export default function Container() {
+  const classes = useStyles();
+
+  const [fields, setFields] = useState(
+      [
+        {
+            fieldName: 'ID',
+            fieldID: 'id',
+            type: 'text',
+            hide: false,
+        },
+        {
+            fieldName: 'First Name',
+            fieldID: 'firstname',
+            type: 'text',
+            hide: false,
+        },
+        {
+            fieldName: 'Last Name',
+            fieldID: 'lastname',
+            type: 'text',
+            hide: false,
+        },
+        {
+            fieldName: 'Email',
+            fieldID: 'email',
+            type: 'text',
+            hide: false,
+        },
+        {
+            fieldName: 'Status',
+            fieldID: 'status',
+            type: 'text',
+            hide: false,
+        },
+        {
+            fieldName: 'Automation',
+            fieldID: 'automation',
+            type: 'text',
+            hide: false,
+        },
+      ]
+  )
+
+  const [rows, setRows] = useState(
+    [
+        createRow(fields, {id: 1, firstname: 'Reid', lastname: 'Relatores', email: 'rrrelatores@gmail.com'}),
+        createRow(fields, {id: 2, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
+        createRow(fields, {id: 3, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
+        createRow(fields, {id: 4, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
+        createRow(fields, {id: 5, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
+        createRow(fields, {id: 6, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
+        createRow(fields, {id: 7, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
+        createRow(fields, {id: 8, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
+        createRow(fields, {id: 9, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
+        createRow(fields, {id: 10, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
+
+    ]
+  )
+
+  return (
+    <>
+    <ContainerHeader/>
+    <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            {fields.map((field, i) => (                
+                !field.hide ? i === 0 ? <TableCell>{field.fieldName}</TableCell> : <TableCell align='right'>{field.fieldName}</TableCell>: null
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.id}>
+                {generateRowCells(row)}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    <ContainerFooter/>
+    </>
+  );
+}
