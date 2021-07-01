@@ -10,27 +10,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-
-const styleStatus = (status) => {
-    switch (status) {
-        // Icon, BackgroundColor, BorderColor, FontColor]
-        case "Quoted No Contact":
-            return [<FormatQuoteIcon/>, '#8E7CC3', '#D1C9E7']
-        case "Sold":
-            return [<AccessibilityNewIcon/>, '#34A854', '#BDE2C7']
-        case "Interested":
-            return [<PriorityHighIcon/>, '#4185F4', '#C1D7FB']
-        case "Low Interest":
-            return [<LowPriorityIcon/>, '#FBBC04', '#FDE9AD']
-        case "Dead":
-            return [<NotInterestedIcon/>, '#EA4435', '#F8C1BD']
-        case "X Date Follow Up":
-            return [<EventBusyIcon/>, '#FEFF03', '#FEFFAC']
-        default:
-            return [<FormatQuoteIcon/>, '#8E7CC3', '#D1C9E7']
-    }
-}
-
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -41,26 +20,35 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const StatusChip = ({status}) => {
-    const [icon, border, background] = styleStatus(status)
+
+const StatusChip = ({params, status, statusHandleChange}) => {
     const classes = useStyles();
 
     return (
     <FormControl className={classes.formControl}>
         <Select
             IconComponent={()=>''}
-            value={<Chip label={status} variant='outline' size='small' style={{borderColor: border, backgroundColor: background}} icon={icon}/>}
-            // onChange={handleChange}
+            value={status}
+            onChange={(e) => statusHandleChange(e, params.id)}
         >
-          <MenuItem value={'Quoted No Contact'}>Quoted No Contact</MenuItem>
-          <MenuItem value={'Sold'}>Sold</MenuItem>
-          <MenuItem value={'Interested'}>Interested</MenuItem>
-          <MenuItem value={'Not Interested'}>Not Interested</MenuItem>
-          <MenuItem value={'Dead'}>Dead</MenuItem>
-          <MenuItem value={'X Date Follow Up'}>X Date Follow Up</MenuItem>
-          
-          {/* <Chip label={label} variant='outline' size='small' style={{borderColor: '#D1C9E7', backgroundColor: '#8E7CC3'}} icon={<FormatQuoteIcon/>}/> */}
-          
+          <MenuItem value={'Quoted No Contact'}>
+            <Chip label={'Quoted No Contact'} variant='outlined' size='small' style={{borderColor: '#8E7CC3', backgroundColor: '#D1C9E7'}} icon={<FormatQuoteIcon/>}/>
+          </MenuItem>
+          <MenuItem value={'Sold'}>
+            <Chip label={'Sold'} variant='outlined' size='small' style={{borderColor: '#34A854', backgroundColor: '#BDE2C7'}} icon={<AccessibilityNewIcon/>}/>
+          </MenuItem>
+          <MenuItem value={'Interested'}>
+            <Chip label={'Interested'} variant='outlined' size='small' style={{borderColor: '#4185F4', backgroundColor: '#C1D7FB'}} icon={<PriorityHighIcon/>}/>
+          </MenuItem>
+          <MenuItem value={'Low Interest'}>
+            <Chip label={'Low Interest'} variant='outlined' size='small' style={{borderColor: '#FBBC04', backgroundColor: '#FDE9AD'}} icon={<LowPriorityIcon/>}/>
+          </MenuItem>
+          <MenuItem value={'Dead'}>
+            <Chip label={'Dead'} variant='outlined' size='small' style={{borderColor: '#EA4435', backgroundColor: '#F8C1BD'}} icon={<NotInterestedIcon/>}/>
+          </MenuItem>
+          <MenuItem value={'X Date Follow Up'}>
+            <Chip label={'X Date Follow Up'} variant='outlined' size='small' style={{borderColor: '#FEFF03', backgroundColor: '#FEFFAC'}} icon={<EventBusyIcon/>}/>
+          </MenuItem>
         </Select>
       </FormControl>
     )
