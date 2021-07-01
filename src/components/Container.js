@@ -1,49 +1,52 @@
+import { theme } from '../Theme.js';
 import ContainerHeader from "./ContainerHeader"
 import ContainerFooter from "./ContainerFooter"
 import StatusChip from "./StatusChip";
-import { DataGrid } from '@material-ui/data-grid';
+// import { DataGrid } from '@material-ui/data-grid';
+import { XGrid } from "@material-ui/x-grid";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles( {
   root: {
-    '&. super-app-theme': {
-      fontFamily: "Lucida Console, Courier New, monospace",
+    '& .super-app-theme--': {
+      fontFamily: theme.palette.typography.fontFamily,
+      fontSize: theme.palette.typography.fontSize,
     },
     '& .super-app-theme--Quoted.No.Contact': {
-      backgroundColor: '#D1C9E7',
+      backgroundColor: theme.palette.secondary.main.quotednocontact,
       '&:hover': {
-        backgroundColor: '#8E7CC3',
+        backgroundColor: theme.palette.secondary.main.quotednocontacthover,
       },
     },
     '& .super-app-theme--Sold': {
-      backgroundColor: '#BDE2C7',
+      backgroundColor: theme.palette.secondary.main.sold,
       '&:hover': {
-        backgroundColor: '#34A854',
+        backgroundColor: theme.palette.secondary.main.soldhover,
       },
     },
     '& .super-app-theme--Interested': {
-      backgroundColor: '#C1D7FB',
+      backgroundColor: theme.palette.secondary.main.interested,
       '&:hover': {
-        backgroundColor: '#4185F4',
+        backgroundColor: theme.palette.secondary.main.interestedhover,
       },
     },
     '& .super-app-theme--Low.Interest': {
-      backgroundColor: '#FDE9AD',
+      backgroundColor: theme.palette.secondary.main.lowinterest,
       '&:hover': {
-        backgroundColor: '#FBBC04',
+        backgroundColor: theme.palette.secondary.main.lowinteresthover,
       },
     },
     '& .super-app-theme--Dead': {
-      backgroundColor: '#F8C1BD',
+      backgroundColor: theme.palette.secondary.main.dead,
       '&:hover': {
-        backgroundColor: '#EA4435',
+        backgroundColor: theme.palette.secondary.main.deadhover,
       },
     },
     '& .super-app-theme--X.Date.Follow.Up': {
-      backgroundColor: '#FEFFAC',
+      backgroundColor: theme.palette.secondary.main.xdate,
       '&:hover': {
-        backgroundColor: '#FEFF03',
+        backgroundColor: theme.palette.secondary.main.xdatehover,
       },
     },
   }
@@ -54,7 +57,11 @@ const Container = () => {
     const classes = useStyles();
     const [columns, setColumns] = useState(
       [
-        { field: 'id', headerName: '', flex: .1 },
+        { field: 'id',
+          headerName: 'ID',
+          flex: .3,
+        
+        },
         {
           field: 'firstName',
           headerName: 'First Name',
@@ -70,7 +77,7 @@ const Container = () => {
         {
           field: 'email',
           headerName: 'Email',
-          flex: 1.7,
+          flex: 1,
           editable: true,
           valueGetter: (params) => 
               `${params.getValue(params.id, 'firstName') || ''}.${params.getValue(params.id, 'lastName')|| ''}@email.com` 
@@ -84,7 +91,7 @@ const Container = () => {
         {
           field: 'status',
           headerName: 'Status',
-          flex: 1.7,
+          flex: 2,
           editable: true,
           renderCell: (params) => (<StatusChip statusHandleChange={statusHandleChange} params={params} status={params.getValue(params.id, 'status')}/>)
         },
@@ -120,7 +127,7 @@ const Container = () => {
             <ContainerHeader/>
             <div className='container-main' style={{ height: '100%', width: '100%' }}>
               <div className={classes.root}  style={{ height: '100%', width: '100%' }}>
-                <DataGrid
+                <XGrid
                     rows = {rows}
                     columns = {columns}
                     rowHeight={30}

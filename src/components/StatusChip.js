@@ -41,7 +41,7 @@ const StatusChip = ({params, status, statusHandleChange}) => {
             <Chip label={'Interested'} variant='outlined' size='small' style={{borderColor: '#4185F4', backgroundColor: '#4185F4', color: '#FFFFFF'}} icon={<PriorityHighIcon/>}/>
           </MenuItem>
           <MenuItem value={'Low Interest'}>
-            <Chip label={'Low Interest'} variant='outlined' size='small' style={{borderColor: '#FBBC04', backgroundColor: '#FBBC04'}} icon={<LowPriorityIcon/>}/>
+            <Chip label={'Low Interest'} variant='outlined' size='small' style={{borderColor: '#FBBC04', backgroundColor: '#FBBC04', color: '#FFFFFF'}} icon={<LowPriorityIcon/>}/>
           </MenuItem>
           <MenuItem value={'Dead'}>
             <Chip label={'Dead'} variant='outlined' size='small' style={{borderColor: '#EA4435', backgroundColor: '#EA4435', color: '#FFFFFF'}} icon={<NotInterestedIcon/>}/>
