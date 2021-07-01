@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import ContainerFooter from './ContainerFooter'
 import ContainerHeader from './ContainerHeader'
+import StatusChip from './StatusChip';
 
 const useStyles = makeStyles({
   table: {
@@ -17,9 +18,9 @@ const useStyles = makeStyles({
 });
 
 
-function referenceField(fields, id) {
-    return fields.filter(field => field.fieldID === id)
-}
+// function referenceField(fields, id) {
+//     return fields.filter(field => field.fieldID === id)
+// }
 
 function createRow(fields, row) {
     const headers = fields.map((field) => (!field.hide ? field.fieldID:{}))
@@ -33,7 +34,11 @@ const generateRowCells = (row) => {
     for (const key in row) {
         if (key === 'id') {
             output.push(<TableCell>{row[key]}</TableCell>)
-        } else {
+        } 
+        else if (key === 'status') {
+            output.push(<TableCell align='right'><StatusChip label={row[key]}/></TableCell>)
+        }
+        else {
             output.push(<TableCell align='right'>{row[key]}</TableCell>)
         }
     }
@@ -72,7 +77,7 @@ export default function Container() {
         {
             fieldName: 'Status',
             fieldID: 'status',
-            type: 'text',
+            type: 'dropdown',
             hide: false,
         },
         {
@@ -86,16 +91,16 @@ export default function Container() {
 
   const [rows, setRows] = useState(
     [
-        createRow(fields, {id: 1, firstname: 'Reid', lastname: 'Relatores', email: 'rrrelatores@gmail.com'}),
-        createRow(fields, {id: 2, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
-        createRow(fields, {id: 3, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
-        createRow(fields, {id: 4, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
-        createRow(fields, {id: 5, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
-        createRow(fields, {id: 6, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
-        createRow(fields, {id: 7, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
-        createRow(fields, {id: 8, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
-        createRow(fields, {id: 9, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
-        createRow(fields, {id: 10, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com'}),
+        createRow(fields, {id: 1, firstname: 'Reid', lastname: 'Relatores', email: 'rrrelatores@gmail.com', status: 'Quoted No Contact'}),
+        createRow(fields, {id: 2, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
+        createRow(fields, {id: 3, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Sold'}),
+        createRow(fields, {id: 4, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Interested'}),
+        createRow(fields, {id: 5, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Low Interest'}),
+        createRow(fields, {id: 6, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'X Date Follow Up'}),
+        createRow(fields, {id: 7, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Dead'}),
+        createRow(fields, {id: 8, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
+        createRow(fields, {id: 9, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
+        createRow(fields, {id: 10, firstname: 'Amy', lastname: 'Kwon', email: 'amykwon@gmail.com', status: 'Quoted No Contact'}),
 
     ]
   )

@@ -42,30 +42,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const StatusChip = ({label}) => {
+const StatusChip = ({label, handleChange}) => {
     const [icon, border, background] = styleStatus(label)
 
     const classes = useStyles();
-    const [status, setStatus] = useState('');
-  
-    const handleChange = (event) => {
-      setStatus(event.target.value);
-    };
 
     return (
     <FormControl className={classes.formControl}>
         <Select
             IconComponent={()=>''}
-            value={status}
+            value={label}
             onChange={handleChange}
         >
-          <MenuItem value={'Quoted No Contact'}><Chip label={label} variant='outline' size='small' style={{borderColor: '#D1C9E7', backgroundColor: '#8E7CC3'}} icon={<FormatQuoteIcon/>}/></MenuItem>
-          <MenuItem value={'Sold'}>Sold</MenuItem>
-          <MenuItem value={'Interested'}>Interested</MenuItem>
-          <MenuItem value={'Not Interested'}>Not Interested</MenuItem>
-          <MenuItem value={'Dead'}>Dead</MenuItem>
-          <MenuItem value={'X Date Follow Up'}>X Date Follow Up</MenuItem>
-          
+          <MenuItem value={'Quoted No Contact'}><Chip label={'Quoted No Contact'} variant='outline' size='small' style={{borderColor: '#8E7CC3', backgroundColor: '#D1C9E7'}} icon={<FormatQuoteIcon/>}/></MenuItem>
+          <MenuItem value={'Sold'}><Chip label={'Sold'} variant='outline' size='small' style={{borderColor: '#34A854', backgroundColor: '#BDE2C7'}} icon={<AccessibilityNewIcon/>}/></MenuItem>
+          <MenuItem value={'Interested'}><Chip label={'Interested'} variant='outline' size='small' style={{borderColor: '#4185F4', backgroundColor: '#C1D7FB'}} icon={<PriorityHighIcon/>}/></MenuItem>
+          <MenuItem value={'Not Interested'}><Chip label={'Not Interested'} variant='outline' size='small' style={{borderColor: '#FBBC04', backgroundColor: '#FDE9AD'}} icon={<LowPriorityIcon/>}/></MenuItem>
+          <MenuItem value={'Dead'}><Chip label={'Dead'} variant='outline' size='small' style={{borderColor: '#EA4435', backgroundColor: '#F8C1BD'}} icon={<NotInterestedIcon/>}/></MenuItem>
+          <MenuItem value={'X Date Follow Up'}><Chip label={'X Date Follow Up'} variant='outline' size='small' style={{borderColor: '#8E7CC3', backgroundColor: '#D1C9E7'}} icon={<EventBusyIcon/>}/></MenuItem>
         </Select>
       </FormControl>
     )
