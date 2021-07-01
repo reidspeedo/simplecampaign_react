@@ -1,6 +1,5 @@
 import logowname from '../images/Logo_w_Name.png';
 
-
 const Header = ({text}) => {
     return (
         <>

@@ -5,7 +5,6 @@ import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import LowPriorityIcon from '@material-ui/icons/LowPriority';
 import EventBusyIcon from '@material-ui/icons/EventBusy';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-import { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -42,29 +41,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const StatusChip = ({label}) => {
-    const [icon, border, background] = styleStatus(label)
-
+const StatusChip = ({status}) => {
+    const [icon, border, background] = styleStatus(status)
     const classes = useStyles();
-    const [status, setStatus] = useState('');
-  
-    const handleChange = (event) => {
-      setStatus(event.target.value);
-    };
 
     return (
     <FormControl className={classes.formControl}>
         <Select
             IconComponent={()=>''}
-            value={status}
-            onChange={handleChange}
+            value={<Chip label={status} variant='outline' size='small' style={{borderColor: border, backgroundColor: background}} icon={icon}/>}
+            // onChange={handleChange}
         >
-          <MenuItem value={'Quoted No Contact'}><Chip label={label} variant='outline' size='small' style={{borderColor: '#D1C9E7', backgroundColor: '#8E7CC3'}} icon={<FormatQuoteIcon/>}/></MenuItem>
+          <MenuItem value={'Quoted No Contact'}>Quoted No Contact</MenuItem>
           <MenuItem value={'Sold'}>Sold</MenuItem>
           <MenuItem value={'Interested'}>Interested</MenuItem>
           <MenuItem value={'Not Interested'}>Not Interested</MenuItem>
           <MenuItem value={'Dead'}>Dead</MenuItem>
           <MenuItem value={'X Date Follow Up'}>X Date Follow Up</MenuItem>
+          
+          {/* <Chip label={label} variant='outline' size='small' style={{borderColor: '#D1C9E7', backgroundColor: '#8E7CC3'}} icon={<FormatQuoteIcon/>}/> */}
           
         </Select>
       </FormControl>
