@@ -32,22 +32,22 @@ const StatusChip = ({params, status, statusHandleChange}) => {
             onChange={(e) => statusHandleChange(e, params.id)}
         >
           <MenuItem value={'Quoted No Contact'}>
-            <Chip label={'Quoted No Contact'} variant='outlined' size='small' style={{borderColor: '#8E7CC3', backgroundColor: '#D1C9E7'}} icon={<FormatQuoteIcon/>}/>
+            <Chip label={'Quoted No Contact'} variant='outlined' size='small' style={{borderColor: '#8E7CC3', backgroundColor: '#8E7CC3', color: '#FFFFFF'}} icon={<FormatQuoteIcon/>}/>
           </MenuItem>
           <MenuItem value={'Sold'}>
-            <Chip label={'Sold'} variant='outlined' size='small' style={{borderColor: '#34A854', backgroundColor: '#BDE2C7'}} icon={<AccessibilityNewIcon/>}/>
+            <Chip label={'Sold'} variant='outlined' size='small' style={{borderColor: '#34A854', backgroundColor: '#34A854', color: '#FFFFFF'}} icon={<AccessibilityNewIcon/>}/>
           </MenuItem>
           <MenuItem value={'Interested'}>
-            <Chip label={'Interested'} variant='outlined' size='small' style={{borderColor: '#4185F4', backgroundColor: '#C1D7FB'}} icon={<PriorityHighIcon/>}/>
+            <Chip label={'Interested'} variant='outlined' size='small' style={{borderColor: '#4185F4', backgroundColor: '#4185F4', color: '#FFFFFF'}} icon={<PriorityHighIcon/>}/>
           </MenuItem>
           <MenuItem value={'Low Interest'}>
-            <Chip label={'Low Interest'} variant='outlined' size='small' style={{borderColor: '#FBBC04', backgroundColor: '#FDE9AD'}} icon={<LowPriorityIcon/>}/>
+            <Chip label={'Low Interest'} variant='outlined' size='small' style={{borderColor: '#FBBC04', backgroundColor: '#FBBC04'}} icon={<LowPriorityIcon/>}/>
           </MenuItem>
           <MenuItem value={'Dead'}>
-            <Chip label={'Dead'} variant='outlined' size='small' style={{borderColor: '#EA4435', backgroundColor: '#F8C1BD'}} icon={<NotInterestedIcon/>}/>
+            <Chip label={'Dead'} variant='outlined' size='small' style={{borderColor: '#EA4435', backgroundColor: '#EA4435', color: '#FFFFFF'}} icon={<NotInterestedIcon/>}/>
           </MenuItem>
           <MenuItem value={'X Date Follow Up'}>
-            <Chip label={'X Date Follow Up'} variant='outlined' size='small' style={{borderColor: '#FEFF03', backgroundColor: '#FEFFAC'}} icon={<EventBusyIcon/>}/>
+            <Chip label={'X Date Follow Up'} variant='outlined' size='small' style={{borderColor: '#FEFF03', backgroundColor: '#FEFF03'}} icon={<EventBusyIcon/>}/>
           </MenuItem>
         </Select>
       </FormControl>

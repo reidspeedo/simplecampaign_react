@@ -1,19 +1,64 @@
 import ContainerHeader from "./ContainerHeader"
 import ContainerFooter from "./ContainerFooter"
 import StatusChip from "./StatusChip";
-import { XGrid } from '@material-ui/x-grid';
+import { DataGrid } from '@material-ui/data-grid';
 import { useState } from "react";
+import { makeStyles } from "@material-ui/styles";
 
+const useStyles = makeStyles( {
+  root: {
+    '&. super-app-theme': {
+      fontFamily: "Lucida Console, Courier New, monospace",
+    },
+    '& .super-app-theme--Quoted.No.Contact': {
+      backgroundColor: '#D1C9E7',
+      '&:hover': {
+        backgroundColor: '#8E7CC3',
+      },
+    },
+    '& .super-app-theme--Sold': {
+      backgroundColor: '#BDE2C7',
+      '&:hover': {
+        backgroundColor: '#34A854',
+      },
+    },
+    '& .super-app-theme--Interested': {
+      backgroundColor: '#C1D7FB',
+      '&:hover': {
+        backgroundColor: '#4185F4',
+      },
+    },
+    '& .super-app-theme--Low.Interest': {
+      backgroundColor: '#FDE9AD',
+      '&:hover': {
+        backgroundColor: '#FBBC04',
+      },
+    },
+    '& .super-app-theme--Dead': {
+      backgroundColor: '#F8C1BD',
+      '&:hover': {
+        backgroundColor: '#EA4435',
+      },
+    },
+    '& .super-app-theme--X.Date.Follow.Up': {
+      backgroundColor: '#FEFFAC',
+      '&:hover': {
+        backgroundColor: '#FEFF03',
+      },
+    },
+  }
+}
+)
 
 const Container = () => {
-
+    const classes = useStyles();
     const [columns, setColumns] = useState(
       [
-        { field: 'id', headerName: 'ID', width: 100 },
+        { field: 'id', headerName: '', flex: .1 },
         {
           field: 'firstName',
           headerName: 'First Name',
-          flex: 0,
+          flex: 1,
           editable: true,
         },
         {
@@ -74,13 +119,17 @@ const Container = () => {
         <> 
             <ContainerHeader/>
             <div className='container-main' style={{ height: '100%', width: '100%' }}>
-            <XGrid
-                rows = {rows}
-                columns = {columns}
-                rowHeight={30}
-                checkboxSelection
-                disableSelectionOnClick
-            />
+              <div className={classes.root}  style={{ height: '100%', width: '100%' }}>
+                <DataGrid
+                    rows = {rows}
+                    columns = {columns}
+                    rowHeight={30}
+                    checkboxSelection
+                    disableSelectionOnClick
+                    getRowClassName={(params) =>
+                    `super-app-theme--${params.getValue(params.id, 'status')}`}
+                />
+              </div>
             </div>
             <ContainerFooter/>
         </>
