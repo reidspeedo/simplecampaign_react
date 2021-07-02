@@ -11,6 +11,7 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import { XGrid } from "@material-ui/x-grid";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
+import AutomationChip from './AutomationChip.js';
 
 const useStyles = makeStyles( {
   root: {
@@ -113,6 +114,7 @@ const Container = () => {
           headerName: 'Automation',
           flex: 2,
           editable: true,
+          renderCell: (params) => (<AutomationChip/>)
         }
       ]
     )
@@ -142,8 +144,6 @@ const Container = () => {
         } : row
       ))
     };
-
-    console.log(rows)
 
     return (
         <> 
