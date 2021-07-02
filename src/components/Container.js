@@ -133,10 +133,17 @@ const Container = () => {
       return temp[out]
     }
     
+
     const statusHandleChange = (e ,id) => {
-      setRows(rows.map((row) => row.id === id ? {...row, status: e.target.value}: row))
+      setRows(rows => rows.map((row) => row.id === id ? 
+        {
+          ...row,
+          status: e.target.value
+        } : row
+      ))
     };
 
+    console.log(rows)
 
     return (
         <> 
