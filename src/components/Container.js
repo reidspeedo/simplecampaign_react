@@ -2,7 +2,12 @@ import { theme } from '../Theme.js';
 import ContainerHeader from "./ContainerHeader"
 import ContainerFooter from "./ContainerFooter"
 import StatusChip from "./StatusChip";
-// import { DataGrid } from '@material-ui/data-grid';
+import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
+import NotInterestedIcon from '@material-ui/icons/NotInterested';
+import LowPriorityIcon from '@material-ui/icons/LowPriority';
+import EventBusyIcon from '@material-ui/icons/EventBusy';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import { XGrid } from "@material-ui/x-grid";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
@@ -93,7 +98,15 @@ const Container = () => {
           headerName: 'Status',
           flex: 2,
           editable: true,
-          renderCell: (params) => (<StatusChip statusHandleChange={statusHandleChange} params={params} status={params.getValue(params.id, 'status')}/>)
+          options: [
+            { key: 0, value: 'Quoted No Contact', color: theme.palette.secondary.main.quotednocontacthover, icon: <FormatQuoteIcon/>, fontcolor: '#ffffff'},
+            { key: 1, value: 'Sold', color: theme.palette.secondary.main.soldhover, icon: <AccessibilityNewIcon/>, fontcolor: '#ffffff'},
+            { key: 2, value: 'Interested', color: theme.palette.secondary.main.interestedhover, icon: <PriorityHighIcon/>, fontcolor: '#ffffff'},
+            { key: 3, value: 'Low Interest', color: theme.palette.secondary.main.lowinteresthover, icon: <LowPriorityIcon/>, fontcolor: '#ffffff'},
+            { key: 4, value: 'Dead', color: theme.palette.secondary.main.deadhover, icon: <NotInterestedIcon/>, fontcolor: '#ffffff'},
+            { key: 5, value: 'X Date Follow Up', color: theme.palette.secondary.main.xdatehover, icon: <EventBusyIcon/>, fontcolor: '#000000'},
+          ],
+          renderCell: (params) => (<StatusChip options={referenceFieldData(columns, 'status', 'options')} statusHandleChange={statusHandleChange} params={params} status={params.getValue(params.id, 'status')}/>),
         },
         {
           field: 'automation',
@@ -103,8 +116,6 @@ const Container = () => {
         }
       ]
     )
-
-
     const [rows, setRows] = useState([
         { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Sold'},
         { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Quoted No Contact'},
@@ -117,6 +128,11 @@ const Container = () => {
         { id: 9, lastName: 'Roxie', firstName: 'Harvey', status: 'Sold'},
     ])
 
+    function referenceFieldData(columns, ref, out) {
+      const temp = columns.filter((column) => column.field === ref)[0];
+      return temp[out]
+    }
+    
     const statusHandleChange = (e ,id) => {
       setRows(rows.map((row) => row.id === id ? {...row, status: e.target.value}: row))
     };
@@ -135,7 +151,7 @@ const Container = () => {
                     disableSelectionOnClick
                     getRowClassName={(params) =>
                     `super-app-theme--${params.getValue(params.id, 'status')}`}
-                />
+                ></XGrid>
               </div>
             </div>
             <ContainerFooter/>
