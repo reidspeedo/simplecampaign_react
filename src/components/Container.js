@@ -98,45 +98,45 @@ const Container = () => {
       [
         { field: 'id',
           headerName: 'ID',
-          flex: .3,
           order: 0,
+          width: 100,
         },
         {
           field: 'firstName',
           headerName: 'First Name',
-          flex: 1,
           editable: true,
           order: 1,
+          width: 150,
         },
         {
           field: 'lastName',
           headerName: 'Last Name',
-          flex: 1,
           editable: true,
           order: 2,
+          width: 150,
         },
         {
           field: 'email',
           headerName: 'Email',
-          flex: 1,
           editable: true,
           order: 3,
+          width: 250,
           valueGetter: (params) => 
               `${params.getValue(params.id, 'firstName') || ''}.${params.getValue(params.id, 'lastName')|| ''}@email.com` 
         },
         {
           field: 'phoneNumber',
           headerName: 'Phone',
-          flex: 1,
           editable: true,
           order: 4,
+          width: 140,
         },
         {
           field: 'status',
           headerName: 'Status',
-          flex: 2,
           editable: false,
           order: 5,
+          width: 215,
           options: [
             { key: 0, value: 'Quoted No Contact', color: theme.palette.secondary.main.quotednocontacthover, icon: <FormatQuoteIcon/>, fontcolor: '#F8F9FF'},
             { key: 1, value: 'Sold', color: theme.palette.secondary.main.soldhover, icon: <AccessibilityNewIcon/>, fontcolor: '#F8F9FF'},
@@ -150,9 +150,9 @@ const Container = () => {
         {
           field: 'automation',
           headerName: 'Automation',
-          flex: 2,
           editable: false,
           order: 6,
+          width: 350,
           options: [
             {key: 0, value: 'Immediate Contact'},
             {key: 1, value: 'Called - No Answer (w/ Quote)'},
@@ -198,6 +198,14 @@ const Container = () => {
       setColumns(column => updateOrder(params, column))
     }
 
+    const handleColumnResize = (params) => {
+      setColumns(columns => columns.map((column) => column.field === params.colDef.field?
+      {
+        ...column,
+        width: params.width,
+      }: column))
+    }
+
     const handleAutomationChange = (e, id) => {
       setRows(rows => rows.map((row) => row.id === id?
       {
@@ -207,7 +215,7 @@ const Container = () => {
       ))
     }
 
-    console.log(columns.map((column) => {return [column.field, column.order]}))
+    // console.log(columns.map((column) => {return [column.field, column.width]}))
     return (
         <> 
             <ContainerHeader/>
@@ -218,11 +226,10 @@ const Container = () => {
                     columns = {columns}
                     apiRef={apiRef}
                     rowHeight={30}
-                    // checkboxSelection
+                    onColumnResizeCommitted={(params) => handleColumnResize(params)}
                     disableSelectionOnClick
                     onColumnOrderChange={(params) => handleColumnChange(params)}
-                    getRowClassName={(params) =>
-                    `super-app-theme--${params.getValue(params.id, 'status')}`}
+                    getRowClassName={(params) => `super-app-theme--${params.getValue(params.id, 'status')}`}
                 ></XGrid>
               </div>
             </div>
