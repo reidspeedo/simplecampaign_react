@@ -1,7 +1,4 @@
-
-
 const SideContent = ({icon, onReveal}) => {
-
 
     if (icon === 'contacts') {return (
         <>
@@ -10,7 +7,6 @@ const SideContent = ({icon, onReveal}) => {
             <div id="Overview" onClick={(e) => onReveal(e.target.id)}>Overview</div>
             <div id="Manage Fields" onClick={(e) => onReveal(e.target.id)}>Manage Fields</div>
             <div id="Import" onClick={(e) => onReveal(e.target.id)}>Import</div>
-            <div id="Export" onClick={(e) => onReveal(e.target.id)}>Export</div>
         </div>
         </>
     )} 

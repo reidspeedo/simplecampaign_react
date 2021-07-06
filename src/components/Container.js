@@ -1,6 +1,5 @@
 import { theme } from '../Theme.js';
 import ContainerHeader from "./ContainerHeader"
-import ContainerFooter from "./ContainerFooter"
 import StatusChip from "./StatusChip";
 import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
@@ -98,12 +97,14 @@ const Container = () => {
       [
         { field: 'id',
           headerName: 'ID',
+          type: 'number',
           order: 0,
           width: 100,
         },
         {
           field: 'firstName',
           headerName: 'First Name',
+          type: 'string',
           editable: true,
           order: 1,
           width: 150,
@@ -111,6 +112,7 @@ const Container = () => {
         {
           field: 'lastName',
           headerName: 'Last Name',
+          type: 'string',
           editable: true,
           order: 2,
           width: 150,
@@ -118,22 +120,36 @@ const Container = () => {
         {
           field: 'email',
           headerName: 'Email',
+          type: 'string',
           editable: true,
           order: 3,
           width: 250,
-          valueGetter: (params) => 
-              `${params.getValue(params.id, 'firstName') || ''}.${params.getValue(params.id, 'lastName')|| ''}@email.com` 
+          // valueGetter: (params) => 
+          //     `${params.getValue(params.id, 'firstName') || ''}.${params.getValue(params.id, 'lastName')|| ''}@email.com` 
         },
         {
           field: 'phoneNumber',
           headerName: 'Phone',
+          type: 'string',
           editable: true,
           order: 4,
           width: 140,
         },
+        // {
+        //   field: 'testdate',
+        //   headerName: 'DateTest',
+        //   type: 'singleSelect',
+        //   valueOptions: [
+        //     'Bulgaria',
+        //     'Netherlands',],
+        //   // editable: true,
+        //   order: 7,
+        //   width: 140,
+        // },
         {
           field: 'status',
           headerName: 'Status',
+          type: 'string',
           editable: false,
           order: 5,
           width: 215,
@@ -150,6 +166,7 @@ const Container = () => {
         {
           field: 'automation',
           headerName: 'Automation',
+          type: 'multiselect',
           editable: false,
           order: 6,
           width: 350,
@@ -183,7 +200,6 @@ const Container = () => {
       const temp = columns.filter((column) => column.field === ref)[0];
       return temp[out]
     }
-    
 
     const statusHandleChange = (e ,id) => {
       setRows(rows => rows.map((row) => row.id === id ? 
@@ -215,25 +231,57 @@ const Container = () => {
       ))
     }
 
-    // console.log(columns.map((column) => {return [column.field, column.width]}))
+    const handleFieldChange = (params) => {
+      setRows(rows => rows.map((row) => row.id === params.id?
+      {
+        ...row,
+        [params.field]: params.props.value,
+      }:row))
+    }
+
+    function addRow() {
+      const obj = {};
+      const next_id = Math.max.apply(Math, rows.map(function(o) { return o.id; })) + 1
+      for (const column of columns) {
+        if (column.type === 'multiselect') {
+          obj[column.field] = []
+        } else if (column.field === 'id') {
+          obj[column.field] =  next_id
+        }
+        else 
+        {
+          obj[column.field] = ''
+        }
+      }
+      var newRows = rows.concat(obj)
+      setRows(newRows)
+    }
+    
     return (
         <> 
-            <ContainerHeader/>
             <div className='container-main' style={{ height: '100%', width: '100%' }}>
               <div className={classes.root}  style={{ height: '100%', width: '100%' }}>
                 <XGrid
                     rows = {rows}
                     columns = {columns}
                     apiRef={apiRef}
-                    rowHeight={30}
+                    rowHeight={50}
+                    rowsPerPageOptions = {[10,20,50]}
                     onColumnResizeCommitted={(params) => handleColumnResize(params)}
+                    onEditCellChangeCommitted={(params) => handleFieldChange(params)}
                     disableSelectionOnClick
                     onColumnOrderChange={(params) => handleColumnChange(params)}
                     getRowClassName={(params) => `super-app-theme--${params.getValue(params.id, 'status')}`}
+                    components={{
+                      Toolbar: ContainerHeader,
+                    }}
+                    componentsProps={{
+                      toolbar: {addRow}
+                    }}
                 ></XGrid>
               </div>
             </div>
-            <ContainerFooter/>
+            <div className='container-footer'></div>
         </>
     )
 }

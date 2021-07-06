@@ -9,6 +9,7 @@ const MyButton = ({text}) => {
             fontWeight: 'bold',
             color: '#7976FF',
             borderColor: '#7976FF',
+            height: '15pt',
             '&:hover': {
                 color: 'white',
                 backgroundColor: '#7976FF',

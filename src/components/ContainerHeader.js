@@ -1,48 +1,38 @@
-import MyButton from "./MyButton"
-import SearchBar from 'material-ui-search-bar';
-import SearchIcon from '@material-ui/icons/Search';
-import ClearIcon from '@material-ui/icons/Clear'
+import ViewQuiltRoundedIcon from '@material-ui/icons/ViewQuiltRounded';
+import Button from '@material-ui/core/Button';
+import BlurOnRoundedIcon from '@material-ui/icons/BlurOnRounded';
+import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import SaveIcon from '@material-ui/icons/Save';
 import { makeStyles } from "@material-ui/core";
-
+import { GridToolbarColumnsButton, GridToolbarDensitySelector, GridToolbarFilterButton, GridToolbarExport } from "@material-ui/x-grid";
 
 const useStyles = makeStyles({
     root: {
-        boxSizing: 'border-box',
-        boxShadow: 'none',
-        borderColor: '#7976FF',
-        border: 'solid',
-        borderWidth: '1pt',
-        marginRight: '5%',
-        height: '25pt',
-    },
-    icons: {
-        fontSize: 20,
+        fontSize: 'small',
+        margin: '3pt',
         color: '#7976FF',
-        paddingLeft: 0,
+        backgroundColor: '#FFFFFF',
+        '&:hover': {
+            color: 'white',
+            backgroundColor: '#7976FF',
+         },
     },
-    inputs: {
-        marginTop: '1%',
-        fontSize: 14,
-        fontFamily: '"Lucida Console", "Courier New", monospace'
-    }
 })
 
-const ContainerHeader = () => {
+
+const ContainerHeader = ({addRow}) => {
     const classes = useStyles();
 
     return (
             <div className='container-header'>
-                <div className = 'container-header-left'>
-                    <MyButton text={'Add'}/>
-                    <MyButton text={'Edit All'}/>
-                    <MyButton text={'Update'}/>
-                    <MyButton text={'Lookup'}/>
-                </div>
-                <div>
-                    <SearchBar
-                    closeIcon={<ClearIcon className={classes.icons}/>} 
-                    searchIcon={<SearchIcon className={classes.icons}/>} 
-                    inputProps={{className: classes.inputs}} placeholder='' className={classes.root}/>
+                <div className='container-header-left'>
+                    <Button onClick={() => addRow()} size='small' startIcon={<AddBoxRoundedIcon/>} className={classes.root}>Row</Button>
+                    <GridToolbarColumnsButton startIcon={<ViewQuiltRoundedIcon/>} className={classes.root}/>
+                    <GridToolbarDensitySelector startIcon={<BlurOnRoundedIcon/>} className={classes.root}/>
+                    <GridToolbarFilterButton className={classes.root}/>
+                    <GridToolbarExport startIcon={<ExitToAppRoundedIcon/>} className={classes.root}/>
+                    <Button size='small' startIcon={<SaveIcon/>} className={classes.root}>Save</Button>
                 </div>
             </div>
         
