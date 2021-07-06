@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -28,7 +27,7 @@ const StatusChip = ({params, options, status, statusHandleChange}) => {
           {options.map((option) => 
           {
             return (
-            <MenuItem key={option.key} value={option.value}>
+            <MenuItem key={option.key} value={option.value} style={{backgroundColor: '#F8F9FF'}}>
                 <Chip label={option.value} variant='outlined' size='small' style={{borderColor: option.color, backgroundColor: option.color, color: option.fontcolor}} icon={option.icon}/>  
             </MenuItem>
           )})}

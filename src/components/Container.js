@@ -8,7 +8,7 @@ import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import LowPriorityIcon from '@material-ui/icons/LowPriority';
 import EventBusyIcon from '@material-ui/icons/EventBusy';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-import { XGrid } from "@material-ui/x-grid";
+import { useGridApiRef, XGrid } from "@material-ui/x-grid";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import AutomationChip from './AutomationChip.js';
@@ -59,32 +59,68 @@ const useStyles = makeStyles( {
 }
 )
 
+function updateOrder(params, columns) {
+  const target_index = params.targetIndex
+  const old_index = params.oldIndex
+  if (old_index > target_index) {
+    return (columns.map((column) => 
+      (column.order === old_index)?
+      {
+      ...column,
+      order: target_index,
+      }:
+      (column.order >= target_index && column.order < old_index) ?
+      {
+        ...column,
+        order: column.order+1,
+      }: column).sort((a, b) => (a.order > b.order) ? 1: -1))
+  } else if (target_index > old_index) {
+    return (columns.map((column) => 
+    (column.order > old_index && column.order <= target_index)?
+    {
+      ...column,
+      order: column.order-1,
+    }:
+    (column.order === old_index)?
+    {
+      ...column,
+      order: target_index,
+    }: column).sort((a, b) => (a.order > b.order) ? 1: -1))
+  }
+}
+
 const Container = () => {
     const classes = useStyles();
+    const apiRef = useGridApiRef();
+
+
     const [columns, setColumns] = useState(
       [
         { field: 'id',
           headerName: 'ID',
           flex: .3,
-        
+          order: 0,
         },
         {
           field: 'firstName',
           headerName: 'First Name',
           flex: 1,
           editable: true,
+          order: 1,
         },
         {
           field: 'lastName',
           headerName: 'Last Name',
           flex: 1,
           editable: true,
+          order: 2,
         },
         {
           field: 'email',
           headerName: 'Email',
           flex: 1,
           editable: true,
+          order: 3,
           valueGetter: (params) => 
               `${params.getValue(params.id, 'firstName') || ''}.${params.getValue(params.id, 'lastName')|| ''}@email.com` 
         },
@@ -93,18 +129,20 @@ const Container = () => {
           headerName: 'Phone',
           flex: 1,
           editable: true,
+          order: 4,
         },
         {
           field: 'status',
           headerName: 'Status',
           flex: 2,
-          editable: true,
+          editable: false,
+          order: 5,
           options: [
-            { key: 0, value: 'Quoted No Contact', color: theme.palette.secondary.main.quotednocontacthover, icon: <FormatQuoteIcon/>, fontcolor: '#ffffff'},
-            { key: 1, value: 'Sold', color: theme.palette.secondary.main.soldhover, icon: <AccessibilityNewIcon/>, fontcolor: '#ffffff'},
-            { key: 2, value: 'Interested', color: theme.palette.secondary.main.interestedhover, icon: <PriorityHighIcon/>, fontcolor: '#ffffff'},
-            { key: 3, value: 'Low Interest', color: theme.palette.secondary.main.lowinteresthover, icon: <LowPriorityIcon/>, fontcolor: '#ffffff'},
-            { key: 4, value: 'Dead', color: theme.palette.secondary.main.deadhover, icon: <NotInterestedIcon/>, fontcolor: '#ffffff'},
+            { key: 0, value: 'Quoted No Contact', color: theme.palette.secondary.main.quotednocontacthover, icon: <FormatQuoteIcon/>, fontcolor: '#F8F9FF'},
+            { key: 1, value: 'Sold', color: theme.palette.secondary.main.soldhover, icon: <AccessibilityNewIcon/>, fontcolor: '#F8F9FF'},
+            { key: 2, value: 'Interested', color: theme.palette.secondary.main.interestedhover, icon: <PriorityHighIcon/>, fontcolor: '#F8F9FF'},
+            { key: 3, value: 'Low Interest', color: theme.palette.secondary.main.lowinteresthover, icon: <LowPriorityIcon/>, fontcolor: '#F8F9FF'},
+            { key: 4, value: 'Dead', color: theme.palette.secondary.main.deadhover, icon: <NotInterestedIcon/>, fontcolor: '#F8F9FF'},
             { key: 5, value: 'X Date Follow Up', color: theme.palette.secondary.main.xdatehover, icon: <EventBusyIcon/>, fontcolor: '#000000'},
           ],
           renderCell: (params) => (<StatusChip options={referenceFieldData(columns, 'status', 'options')} statusHandleChange={statusHandleChange} params={params} status={params.getValue(params.id, 'status')}/>),
@@ -113,21 +151,32 @@ const Container = () => {
           field: 'automation',
           headerName: 'Automation',
           flex: 2,
-          editable: true,
-          renderCell: (params) => (<AutomationChip/>)
+          editable: false,
+          order: 6,
+          options: [
+            {key: 0, value: 'Immediate Contact'},
+            {key: 1, value: 'Called - No Answer (w/ Quote)'},
+            {key: 2, value: 'X Date Follow Up - Renewal'},
+            {key: 3, value: 'Contact Made - Interested (Cold)'},
+            {key: 4, value: 'Personal - New (You Know Them)'},
+            {key: 5, value: 'Personal - New (Amy Knows Them)'},
+            {key: 6, value: 'Custom Message'},
+            {key: 7, value: 'Sold'},
+          ],
+          renderCell: (params) => (<AutomationChip options={referenceFieldData(columns, 'automation', 'options')} handleAutomationChange={handleAutomationChange} params={params} automation={params.getValue(params.id, 'automation')}/>)
         }
       ]
     )
     const [rows, setRows] = useState([
-        { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Sold'},
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Quoted No Contact'},
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', status: 'Interested'},
-        { id: 4, lastName: 'Stark', firstName: 'Arya', status: 'Low Interest'},
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', status: 'Dead'},
-        { id: 6, lastName: 'Melisandre', firstName: null, status: 'X Date Follow Up'},
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', status: 'Sold'},
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', status: 'Sold'},
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', status: 'Sold'},
+        { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Sold', automation: ['Immediate Contact']},
+        { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Quoted No Contact', automation: ['Sold']},
+        { id: 3, lastName: 'Lannister', firstName: 'Jaime', status: 'Interested', automation: ['Custom Message','Called - No Answer (w/ Quote)']},
+        { id: 4, lastName: 'Stark', firstName: 'Arya', status: 'Low Interest', automation: ['Custom Message','Called - No Answer (w/ Quote)']},
+        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', status: 'Dead', automation: ['Immediate Contact','Called - No Answer (w/ Quote)']},
+        { id: 6, lastName: 'Melisandre', firstName: null, status: 'X Date Follow Up', automation: ['Custom Message','Called - No Answer (w/ Quote)']},
+        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', status: 'Sold', automation: ['Called - No Answer (w/ Quote)','Immediate Contact']},
+        { id: 8, lastName: 'Frances', firstName: 'Rossini', status: 'Sold', automation: ['Immediate Contact','Called - No Answer (w/ Quote)']},
+        { id: 9, lastName: 'Roxie', firstName: 'Harvey', status: 'Sold', automation: ['Custom Message','Called - No Answer (w/ Quote)']},
     ])
 
     function referenceFieldData(columns, ref, out) {
@@ -144,7 +193,21 @@ const Container = () => {
         } : row
       ))
     };
+    
+    const handleColumnChange = (params) => {
+      setColumns(column => updateOrder(params, column))
+    }
 
+    const handleAutomationChange = (e, id) => {
+      setRows(rows => rows.map((row) => row.id === id?
+      {
+        ...row,
+        automation: e.target.value
+      }: row
+      ))
+    }
+
+    console.log(columns.map((column) => {return [column.field, column.order]}))
     return (
         <> 
             <ContainerHeader/>
@@ -153,9 +216,11 @@ const Container = () => {
                 <XGrid
                     rows = {rows}
                     columns = {columns}
+                    apiRef={apiRef}
                     rowHeight={30}
-                    checkboxSelection
+                    // checkboxSelection
                     disableSelectionOnClick
+                    onColumnOrderChange={(params) => handleColumnChange(params)}
                     getRowClassName={(params) =>
                     `super-app-theme--${params.getValue(params.id, 'status')}`}
                 ></XGrid>

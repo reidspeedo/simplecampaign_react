@@ -1,23 +1,23 @@
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
+import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import { useState } from 'react';
+
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
-    maxWidth: 300,
   },
   chips: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
   },
   chip: {
-    margin: 2,
+    backgroundColor: '#F8F9FF',
+    borderColor: '#F8F9FF',
+    color: '#7976FF'
   },
   noLabel: {
     marginTop: theme.spacing(3),
@@ -35,60 +35,46 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
-function getStyles(name, personName, theme) {
+function getStyles(value, automation) {
   return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
+    color: 
+    (automation.indexOf(value) === -1
+        ? '#7976FF'
+        : '#F8F9FF'),
+    backgroundColor: 
+    (automation.indexOf(value) === -1
+        ? '#F8F9FF'
+        : '#7976FF'),
+    borderColor:
+    (automation.indexOf(value) === -1
+        ? '#7976FF'
+        : '#F8F9FF'),
   };
 }
 
-export default function AutomationChip() {
+export default function AutomationChip({params, automation, options, handleAutomationChange}) {
   const classes = useStyles();
-  const theme = useTheme();
-  const [personName, setPersonName] = useState([]);
-
-  const handleChange = (event) => {
-    setPersonName(event.target.value);
-  };
-
 
   return (
     <div>
       <FormControl className={classes.formControl}>
         <Select
-          labelId="demo-mutiple-chip-label"
-          id="demo-mutiple-chip"
+          IconComponent={()=>''}
           multiple
-          value={personName}
-          onChange={handleChange}
-          input={<Input id="select-multiple-chip" />}
+          value={automation}
+          onChange={(e) => handleAutomationChange(e, params.id)}
           renderValue={(selected) => (
             <div className={classes.chips}>
               {selected.map((value) => (
-                <Chip key={value} label={value} className={classes.chip} />
+                <Chip key={value} label={value} variant='outlined' size='small' className={classes.chip} />
               ))}
             </div>
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
-            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-              {name}
+          {options.map((option) => (
+            <MenuItem key={option.value} value={option.value} style={{backgroundColor: '#F8F9FF', overflow: 'hidden'}}>
+              <Chip key={option.value} label={option.value} variant='outlined' size='small' style={getStyles(option.value, automation)} />
             </MenuItem>
           ))}
         </Select>
