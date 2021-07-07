@@ -98,7 +98,7 @@ const Container = () => {
         { field: 'id',
           headerName: 'ID',
           type: 'number',
-          order: 0,
+          order: 1,
           width: 100,
         },
         {
@@ -106,7 +106,7 @@ const Container = () => {
           headerName: 'First Name',
           type: 'string',
           editable: true,
-          order: 1,
+          order: 2,
           width: 150,
         },
         {
@@ -114,7 +114,7 @@ const Container = () => {
           headerName: 'Last Name',
           type: 'string',
           editable: true,
-          order: 2,
+          order: 3,
           width: 150,
         },
         {
@@ -122,7 +122,7 @@ const Container = () => {
           headerName: 'Email',
           type: 'string',
           editable: true,
-          order: 3,
+          order: 4,
           width: 250,
           // valueGetter: (params) => 
           //     `${params.getValue(params.id, 'firstName') || ''}.${params.getValue(params.id, 'lastName')|| ''}@email.com` 
@@ -132,7 +132,7 @@ const Container = () => {
           headerName: 'Phone',
           type: 'string',
           editable: true,
-          order: 4,
+          order: 5,
           width: 140,
         },
         // {
@@ -151,7 +151,7 @@ const Container = () => {
           headerName: 'Status',
           type: 'string',
           editable: false,
-          order: 5,
+          order: 6,
           width: 215,
           options: [
             { key: 0, value: 'Quoted No Contact', color: theme.palette.secondary.main.quotednocontacthover, icon: <FormatQuoteIcon/>, fontcolor: '#F8F9FF'},
@@ -168,7 +168,7 @@ const Container = () => {
           headerName: 'Automation',
           type: 'multiselect',
           editable: false,
-          order: 6,
+          order: 7,
           width: 350,
           options: [
             {key: 0, value: 'Immediate Contact'},
@@ -269,7 +269,8 @@ const Container = () => {
                     rowsPerPageOptions = {[10,20,50]}
                     onColumnResizeCommitted={(params) => handleColumnResize(params)}
                     onEditCellChangeCommitted={(params) => handleFieldChange(params)}
-                    disableSelectionOnClick
+                    checkboxSelection
+                    disableSelectionOnClick={true}
                     onColumnOrderChange={(params) => handleColumnChange(params)}
                     getRowClassName={(params) => `super-app-theme--${params.getValue(params.id, 'status')}`}
                     components={{

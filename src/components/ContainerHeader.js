@@ -4,6 +4,7 @@ import BlurOnRoundedIcon from '@material-ui/icons/BlurOnRounded';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import SaveIcon from '@material-ui/icons/Save';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import { makeStyles } from "@material-ui/core";
 import { GridToolbarColumnsButton, GridToolbarDensitySelector, GridToolbarFilterButton, GridToolbarExport } from "@material-ui/x-grid";
 
@@ -28,6 +29,7 @@ const ContainerHeader = ({addRow}) => {
             <div className='container-header'>
                 <div className='container-header-left'>
                     <Button onClick={() => addRow()} size='small' startIcon={<AddBoxRoundedIcon/>} className={classes.root}>Row</Button>
+                    <Button size='small' startIcon={<RemoveCircleOutlineIcon/>} className={classes.root}>Remove From Automation</Button>
                     <GridToolbarColumnsButton startIcon={<ViewQuiltRoundedIcon/>} className={classes.root}/>
                     <GridToolbarDensitySelector startIcon={<BlurOnRoundedIcon/>} className={classes.root}/>
                     <GridToolbarFilterButton className={classes.root}/>
