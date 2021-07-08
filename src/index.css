@@ -176,8 +176,9 @@ html, body {
 .container-header {
   display: flex;
   justify-content: space-between;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
+  overflow-x: scroll;
   border-top-left-radius: 5pt;
   border-top-right-radius: 5pt;
   width: 100%;
@@ -187,9 +188,10 @@ html, body {
 
 .container-header-left{
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  overflow-x: scroll;
   width: 100%;
-  height: 20pt;
+  height: 30pt;
   padding-left: 10pt;
   justify-content: flex-start;
   align-items: center;

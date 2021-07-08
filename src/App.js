@@ -2,6 +2,7 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Container from "./components/Container";
 import { useState } from 'react'
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
   }
 
   return (
+    <BrowserRouter>
     <div className="main">
         <div className='sidebar'>
           <Sidebar onReveal={onReveal}/>
@@ -21,11 +23,12 @@ function App() {
           <Header text={containerstate}/>
           <div className='container'>
             <div className='container-box'>
-              <Container/>
+                  <Container/>
             </div>
           </div>
         </div>
     </div>
+    </BrowserRouter>
   );
 }
 

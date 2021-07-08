@@ -1,12 +1,14 @@
+import { Link } from "react-router-dom";
+
 const SideContent = ({icon, onReveal}) => {
 
     if (icon === 'contacts') {return (
         <>
         <div className='side-content-header'><p>Contacts</p></div>
         <div className='side-content-labels'>
-            <div id="Overview" onClick={(e) => onReveal(e.target.id)}>Overview</div>
-            <div id="Manage Fields" onClick={(e) => onReveal(e.target.id)}>Manage Fields</div>
-            <div id="Import" onClick={(e) => onReveal(e.target.id)}>Import</div>
+            <Link style={{ textDecoration: 'none' }} to="/"><div id="Overview" onClick={(e) => onReveal(e.target.id)}>Overview</div></Link>
+            <Link style={{ textDecoration: 'none' }} to="/managefields"><div id="Manage Fields" onClick={(e) => onReveal(e.target.id)}>Manage Fields</div></Link>
+            <Link style={{ textDecoration: 'none' }} to="/import"><div id="Import" onClick={(e) => onReveal(e.target.id)}>Import</div></Link>
         </div>
         </>
     )} 

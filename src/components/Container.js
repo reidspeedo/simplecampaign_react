@@ -1,5 +1,4 @@
 import { theme } from '../Theme.js';
-import ContainerHeader from "./ContainerHeader"
 import StatusChip from "./StatusChip";
 import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
@@ -7,10 +6,12 @@ import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import LowPriorityIcon from '@material-ui/icons/LowPriority';
 import EventBusyIcon from '@material-ui/icons/EventBusy';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-import { useGridApiRef, XGrid } from "@material-ui/x-grid";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import AutomationChip from './AutomationChip.js';
+import { Route, Switch } from "react-router-dom";
+import Overview from './Overview.js';
+import ManageFields from './ManageFields.js';
 
 const useStyles = makeStyles( {
   root: {
@@ -54,6 +55,13 @@ const useStyles = makeStyles( {
         backgroundColor: theme.palette.secondary.main.xdatehover,
       },
     },
+    '& .MuiDataGrid-root': {
+      fontFamily: '"Lucida Console", "Courier New", monospace;'
+    },
+    '& .MuiDataGrid-columnsContainer': {
+      backgroundColor: '#F8F9FF',
+      fontSize: 16,
+    }
   }
 }
 )
@@ -63,42 +71,42 @@ function updateOrder(params, columns) {
   const old_index = params.oldIndex
   if (old_index > target_index) {
     return (columns.map((column) => 
-      (column.order === old_index)?
+      (column.id === old_index)?
       {
       ...column,
-      order: target_index,
+      id: target_index,
       }:
-      (column.order >= target_index && column.order < old_index) ?
+      (column.id >= target_index && column.id < old_index) ?
       {
         ...column,
-        order: column.order+1,
-      }: column).sort((a, b) => (a.order > b.order) ? 1: -1))
+        id: column.id+1,
+      }: column).sort((a, b) => (a.id > b.id) ? 1: -1))
   } else if (target_index > old_index) {
     return (columns.map((column) => 
-    (column.order > old_index && column.order <= target_index)?
+    (column.id > old_index && column.id <= target_index)?
     {
       ...column,
-      order: column.order-1,
+      id: column.id-1,
     }:
-    (column.order === old_index)?
+    (column.id === old_index)?
     {
       ...column,
-      order: target_index,
-    }: column).sort((a, b) => (a.order > b.order) ? 1: -1))
+      id: target_index,
+    }: column).sort((a, b) => (a.id > b.id) ? 1: -1))
   }
 }
 
 const Container = () => {
     const classes = useStyles();
-    const apiRef = useGridApiRef();
 
 
     const [columns, setColumns] = useState(
       [
-        { field: 'id',
+        { 
+          field: 'id',
           headerName: 'ID',
           type: 'number',
-          order: 1,
+          id: 1,
           width: 100,
         },
         {
@@ -106,7 +114,7 @@ const Container = () => {
           headerName: 'First Name',
           type: 'string',
           editable: true,
-          order: 2,
+          id: 2,
           width: 150,
         },
         {
@@ -114,7 +122,7 @@ const Container = () => {
           headerName: 'Last Name',
           type: 'string',
           editable: true,
-          order: 3,
+          id: 3,
           width: 150,
         },
         {
@@ -122,36 +130,23 @@ const Container = () => {
           headerName: 'Email',
           type: 'string',
           editable: true,
-          order: 4,
+          id: 4,
           width: 250,
-          // valueGetter: (params) => 
-          //     `${params.getValue(params.id, 'firstName') || ''}.${params.getValue(params.id, 'lastName')|| ''}@email.com` 
         },
         {
           field: 'phoneNumber',
           headerName: 'Phone',
           type: 'string',
           editable: true,
-          order: 5,
+          id: 5,
           width: 140,
         },
-        // {
-        //   field: 'testdate',
-        //   headerName: 'DateTest',
-        //   type: 'singleSelect',
-        //   valueOptions: [
-        //     'Bulgaria',
-        //     'Netherlands',],
-        //   // editable: true,
-        //   order: 7,
-        //   width: 140,
-        // },
         {
           field: 'status',
           headerName: 'Status',
-          type: 'string',
+          type: 'singleselect',
           editable: false,
-          order: 6,
+          id: 6,
           width: 215,
           options: [
             { key: 0, value: 'Quoted No Contact', color: theme.palette.secondary.main.quotednocontacthover, icon: <FormatQuoteIcon/>, fontcolor: '#F8F9FF'},
@@ -168,7 +163,7 @@ const Container = () => {
           headerName: 'Automation',
           type: 'multiselect',
           editable: false,
-          order: 7,
+          id: 7,
           width: 350,
           options: [
             {key: 0, value: 'Immediate Contact'},
@@ -259,30 +254,28 @@ const Container = () => {
     
     return (
         <> 
-            <div className='container-main' style={{ height: '100%', width: '100%' }}>
-              <div className={classes.root}  style={{ height: '100%', width: '100%' }}>
-                <XGrid
-                    rows = {rows}
-                    columns = {columns}
-                    apiRef={apiRef}
-                    rowHeight={50}
-                    rowsPerPageOptions = {[10,20,50]}
-                    onColumnResizeCommitted={(params) => handleColumnResize(params)}
-                    onEditCellChangeCommitted={(params) => handleFieldChange(params)}
-                    checkboxSelection
-                    disableSelectionOnClick={true}
-                    onColumnOrderChange={(params) => handleColumnChange(params)}
-                    getRowClassName={(params) => `super-app-theme--${params.getValue(params.id, 'status')}`}
-                    components={{
-                      Toolbar: ContainerHeader,
-                    }}
-                    componentsProps={{
-                      toolbar: {addRow}
-                    }}
-                ></XGrid>
-              </div>
+        <div className='container-main' style={{ height: '100%', width: '100%' }}>
+            <div className={classes.root}  style={{ height: '100%', width: '100%' }}>
+            <Switch>
+              <Route exact path="/">
+                    <Overview 
+                      columns={columns} 
+                      rows={rows} 
+                      handleColumnChange={handleColumnChange} 
+                      handleColumnResize={handleColumnResize}
+                      handleFieldChange={handleFieldChange}
+                      addRow={addRow}/>
+              </Route>
+              <Route exact path="/managefields">
+                  <ManageFields columns={columns}/>
+              </Route>
+              <Route exact path="/import">
+                  <div>Import</div>
+              </Route>
+            </Switch>
             </div>
-            <div className='container-footer'></div>
+        </div>
+        <div className='container-footer'></div>
         </>
     )
 }
