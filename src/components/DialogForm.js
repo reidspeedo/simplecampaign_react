@@ -54,16 +54,17 @@ export default function DialogForm({addFieldtoGrid}) {
   const [optiontext, setOptiontext] = useState('')
   const [options, setOptions] = useState([]);
 
-  const addToOption = (optiontext) => {
+  function addToOption(optiontext) {
+    var id 
     if (options.length === 0) {
-        var id = 0
-    }  
-    else {
-        id = options.sort((a, b) => (a.key > b.key) ? 1: -1)[0].key + 1     
+        id = 0
+    }  else {
+        id = options.sort((a, b) => (a.key > b.key) ? -1: 1)[0].key + 1     
     }
-      var newOptions = options.concat({key: id, value: optiontext })
-      setOptions(newOptions)
-      setOptiontext('')
+    
+    var newOptions = options.concat({key: id, value: optiontext })
+    setOptions(newOptions)
+    setOptiontext('')
   }
   
   const handleOptionTextChange = (event) => {
@@ -96,8 +97,6 @@ export default function DialogForm({addFieldtoGrid}) {
   const addFieldtoGridWrap = (fieldname, type, options) => {
     addFieldtoGrid(fieldname, type, options);
     handleDialogClose();
-    setOpen(!open)
-    setOpen(!open)
   }
 
   return (

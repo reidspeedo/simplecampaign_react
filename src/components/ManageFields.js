@@ -3,10 +3,10 @@ import { DataGrid } from '@material-ui/data-grid'
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
-import { useState } from 'react';
 import Options from './Options';
 import DialogForm from './DialogForm';
-
+import SaveIcon from '@material-ui/icons/Save';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles({
     root: {
@@ -36,9 +36,10 @@ function renderOptions(params) {
     }
 }
 
-const ManageFields = ({columns, addFieldtoGrid}) => {
+const ManageFields = ({containerColumns, addFieldtoGrid}) => {
     const classes = useStyles();
-    const [rows] = useState(columns)
+    // const rows = [...containerColumns]
+    // const [rows] = useState(containerColumns)
 
     return (
         <>
@@ -46,7 +47,9 @@ const ManageFields = ({columns, addFieldtoGrid}) => {
         <div className='container-header'>
                 <div className='container-header-left'>
                 <DialogForm addFieldtoGrid={addFieldtoGrid}/>
+                <Button size='small' startIcon={<EditIcon/>} className={classes.root}>Edit Field</Button>
                 <Button size='small' startIcon={<DeleteForeverRoundedIcon/>} className={classes.root}>Delete Field</Button>
+                <Button size='small' startIcon={<SaveIcon/>} className={classes.root}>Save</Button>
                 </div>
         </div>
         <DataGrid
@@ -92,7 +95,7 @@ const ManageFields = ({columns, addFieldtoGrid}) => {
                     renderCell: (params) => <Options options={renderOptions(params)}/>
                 },
             ]}
-            rows={rows}
+            rows={containerColumns}
             checkboxSelection
             rowsPerPageOptions={[]}
             disableSelectionOnClick

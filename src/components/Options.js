@@ -17,13 +17,13 @@ const useStyles = makeStyles((theme) => ({
 const Options = ({options}) => {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = useState(null);
-    const [value, setValue] = useState(null)    
+    const [value, setValue] = useState([])    
     const [open, setOpen] = useState(false)
     const id = open ? 'simple-popper' : undefined;
     
     const handleHover = (event) => { 
         setAnchorEl(anchorEl ? null : event.currentTarget);
-        setValue(event.target.innerText)
+        setValue(event.target.innerText.split(', '))
         setOpen(!open)
       };
 
@@ -33,7 +33,15 @@ const Options = ({options}) => {
             {options}
         </div>
         <Popper id={id} open={open} anchorEl={anchorEl} placement={'top-start'}>
-            <div className={classes.paper}>{value}</div>
+            <div className={classes.paper}>
+              <ul>
+              {value.map((element) => {
+                return (
+                  <li key={`${Math.random()}-${element}`}>{element}</li>
+                )
+              })}
+              </ul>
+            </div>
         </Popper>
         </>
 

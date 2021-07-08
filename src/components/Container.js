@@ -12,6 +12,8 @@ import AutomationChip from './AutomationChip.js';
 import { Route, Switch } from "react-router-dom";
 import Overview from './Overview.js';
 import ManageFields from './ManageFields.js';
+import MultiSelect from './MultiSelect.js'
+import SingleSelect from './SingleSelect.js';
 
 const useStyles = makeStyles( {
   root: {
@@ -146,6 +148,7 @@ const Container = () => {
           headerName: 'Status',
           type: 'singleselect',
           editable: false,
+          resizable: true,
           id: 6,
           width: 215,
           options: [
@@ -163,8 +166,9 @@ const Container = () => {
           headerName: 'Automation',
           type: 'multiselect',
           editable: false,
+          resizable: true,
           id: 7,
-          width: 350,
+          width: 100,
           options: [
             {key: 0, value: 'Immediate Contact'},
             {key: 1, value: 'Called - No Answer (w/ Quote)'},
@@ -226,13 +230,25 @@ const Container = () => {
       ))
     }
 
-    const handleFieldChange = (params) => {
+
+    const handleFieldChange = (e, params) => {
+      // console.log(e, id)
+      setRows(rows => rows.map((row) => row.id === params.id?
+      {
+        ...row,
+        [params.field]: e.target.value
+      }: row
+      ))
+    }
+
+    const handleSetDGFieldChange = (params) => {
       setRows(rows => rows.map((row) => row.id === params.id?
       {
         ...row,
         [params.field]: params.props.value,
       }:row))
     }
+
 
     function addRow() {
       const obj = {};
@@ -263,17 +279,19 @@ const Container = () => {
       obj['editable'] = true
 
       if (fieldType === 'singleselect') {
-          obj[options] = options
+          obj['options'] = options
           obj['editable'] = false
+          obj['resizable'] = true
+          obj['renderCell'] = (params) => (<SingleSelect options={options} handleFieldChange={handleFieldChange} params={params} field={params.getValue(params.id, params.field)}/>)
       } else if (fieldType === 'multiselect') {
-          obj[options] = options
+          obj['options'] = options
           obj['editable'] = false
+          obj['resizable'] = true
+          obj['renderCell'] = (params) => (<MultiSelect options={options} handleFieldChange={handleFieldChange} params={params} field={params.getValue(params.id, params.field)}/>)
       }
       var newColumns = columns.concat(obj)
       setColumns(newColumns)
     }
-
-    console.log(rows)
 
     return (
         <> 
@@ -286,11 +304,11 @@ const Container = () => {
                       rows={rows} 
                       handleColumnChange={handleColumnChange} 
                       handleColumnResize={handleColumnResize}
-                      handleFieldChange={handleFieldChange}
+                      handleFieldChange={handleSetDGFieldChange}
                       addRow={addRow}/>
               </Route>
               <Route exact path="/managefields">
-                  <ManageFields addFieldtoGrid={addFieldtoGrid} columns={columns}/>
+                  <ManageFields addFieldtoGrid={addFieldtoGrid} containerColumns={columns}/>
               </Route>
               <Route exact path="/import">
                   <div>Import</div>
