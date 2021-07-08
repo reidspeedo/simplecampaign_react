@@ -1,11 +1,11 @@
 
 import { DataGrid } from '@material-ui/data-grid'
-import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import { useState } from 'react';
 import Options from './Options';
+import DialogForm from './DialogForm';
 
 
 const useStyles = makeStyles({
@@ -24,7 +24,6 @@ const useStyles = makeStyles({
             flexWrap: 'scroll',
           },
     },
-
 })
 
 function renderOptions(params) {
@@ -37,19 +36,16 @@ function renderOptions(params) {
     }
 }
 
-const ManageFields = ({columns}) => {
+const ManageFields = ({columns, addFieldtoGrid}) => {
     const classes = useStyles();
     const [rows] = useState(columns)
 
-    const addRow = () => {
-        console.log('addRow')
-    }
     return (
         <>
         <div style={{ height: "100%", width: "100%" }} className={classes.root}>
         <div className='container-header'>
                 <div className='container-header-left'>
-                <Button onClick={() => addRow()} size='small' startIcon={<AddBoxRoundedIcon/>} className={classes.root}>Create Field</Button>
+                <DialogForm addFieldtoGrid={addFieldtoGrid}/>
                 <Button size='small' startIcon={<DeleteForeverRoundedIcon/>} className={classes.root}>Delete Field</Button>
                 </div>
         </div>

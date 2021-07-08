@@ -99,7 +99,7 @@ function updateOrder(params, columns) {
 const Container = () => {
     const classes = useStyles();
 
-
+    
     const [columns, setColumns] = useState(
       [
         { 
@@ -252,6 +252,29 @@ const Container = () => {
       setRows(newRows)
     }
     
+    function addFieldtoGrid(fieldName, fieldType, options) {
+      const obj = {}
+      const copycolumns = [...columns]
+      obj['id']=copycolumns.sort((a, b) => (a.id > b.id) ? -1: 1)[0].id + 1
+      obj['field'] = (fieldName.charAt(0).toLowerCase() + fieldName.slice(1)).replace(' ','')
+      obj['headerName'] = fieldName
+      obj['type'] = fieldType
+      obj['width'] = 150
+      obj['editable'] = true
+
+      if (fieldType === 'singleselect') {
+          obj[options] = options
+          obj['editable'] = false
+      } else if (fieldType === 'multiselect') {
+          obj[options] = options
+          obj['editable'] = false
+      }
+      var newColumns = columns.concat(obj)
+      setColumns(newColumns)
+    }
+
+    console.log(rows)
+
     return (
         <> 
         <div className='container-main' style={{ height: '100%', width: '100%' }}>
@@ -267,7 +290,7 @@ const Container = () => {
                       addRow={addRow}/>
               </Route>
               <Route exact path="/managefields">
-                  <ManageFields columns={columns}/>
+                  <ManageFields addFieldtoGrid={addFieldtoGrid} columns={columns}/>
               </Route>
               <Route exact path="/import">
                   <div>Import</div>
